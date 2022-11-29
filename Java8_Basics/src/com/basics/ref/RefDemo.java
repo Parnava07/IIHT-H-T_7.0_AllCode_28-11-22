@@ -14,6 +14,14 @@ public class RefDemo {
 		//using method of project class in this class
 		IWork iWork = Project::projectProgress;
 		iWork.doProject();
+		
+		Runnable runnable = Project::threadTask;
+		Thread t1 = new Thread(runnable);
+		t1.start();
+		
+		Runnable runnable1 = Project::oddTo100;
+		Thread t2 = new Thread(runnable1);
+		t2.start();
 
 	}
 
