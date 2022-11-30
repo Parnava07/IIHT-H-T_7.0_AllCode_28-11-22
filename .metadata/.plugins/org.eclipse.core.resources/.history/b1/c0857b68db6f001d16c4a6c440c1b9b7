@@ -1,0 +1,12 @@
+package com.basics.cons;
+
+public class ConsMain {
+	public static void main(String[] args) {
+		System.out.println("we are studying const ref");
+		
+		IStudent iStudent = () -> {
+			return new Student();
+		}
+	}
+
+}

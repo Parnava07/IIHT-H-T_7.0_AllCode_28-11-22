@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.basics.lambda.LearnLambda"/>
+    <fullyQualifiedTypeName name="com.basics.lambda.SayHello"/>
+    <fullyQualifiedTypeName name="com.basics.interfaces.Drivable"/>
+    <fullyQualifiedTypeName name="com.basics.interfaces.manufacturing"/>
+    <fullyQualifiedTypeName name="com.basics.interfaces.sales"/>
+    <fullyQualifiedTypeName name="com.basics.interfaces.Product"/>
+    <fullyQualifiedTypeName name="com.basics.interfaces.Square"/>
+    <fullyQualifiedTypeName name="java.util.function.Predicate"/>
+    <fullyQualifiedTypeName name="com.basics.interfaces.Calculator"/>
+</qualifiedTypeNameHistroy>

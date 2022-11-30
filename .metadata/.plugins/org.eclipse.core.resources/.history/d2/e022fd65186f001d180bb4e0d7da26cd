@@ -1,0 +1,10 @@
+package com.basics.interfaces;
+
+public class MathCalculator {
+
+	public static void main(String[] args) {
+		
+
+	}
+
+}

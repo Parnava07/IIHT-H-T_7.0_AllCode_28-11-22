@@ -1,0 +1,20 @@
+package com.basics.dateandtime;
+import java.text.*;
+import java.time.LocalDate;
+import java.time.Month;
+//import java.util.Date;
+
+public class DateTime {
+
+	public static void main(String[] args) {
+		
+		//LocalDate today = LocalDate.now();
+		LocalDate today = LocalDate.of(2022,Month.AUGUST,15);
+		System.out.println(today);
+		
+		//Date today = new Date();
+		
+
+	}
+
+}

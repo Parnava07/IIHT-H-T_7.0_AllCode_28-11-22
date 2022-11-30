@@ -1,0 +1,37 @@
+package com.basics.functionalinterface;
+
+import java.util.function.Predicate;
+
+//public class PredicateDemo implements Predicate<Integer> {
+//
+//	@Override
+//	public boolean test(Integer t) {
+//		
+//		if(t%2==0) {
+//			return true;
+//		}	
+//		return false;
+//	}
+//	public static void main(String[] args) {
+//		
+//		Predicate<Integer> predicate = new PredicateDemo();
+//		predicate.test(35);
+//		
+//	}
+//
+//}
+
+public class PredicateDemo{
+	
+	public static void main(String[] args) {
+		
+		Predicate<Integer> predicate = (t) -> t%2==0;
+//		{
+//			if (t%2==0) {
+//				return true;
+//			}
+//			return false;
+//		};
+		System.out.println(predicate.test(6898));	
+	}
+}

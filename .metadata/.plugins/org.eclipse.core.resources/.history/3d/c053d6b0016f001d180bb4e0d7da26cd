@@ -1,0 +1,11 @@
+package com.basics.lambda;
+
+public class LearnLambda {
+
+	//parameter -> Expression body
+	public static void main(String[] args) {
+		System.out.println("Hello world!");
+
+	}
+
+}

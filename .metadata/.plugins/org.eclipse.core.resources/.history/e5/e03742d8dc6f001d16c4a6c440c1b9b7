@@ -1,0 +1,15 @@
+package com.basics.cons;
+
+public class Student {
+	
+	public Student() {
+		System.out.println("creating object of student class");
+	}
+	
+	public void display(String name, String standard) {
+		System.out.println("The student name is : ");
+		System.out.println("This is a student");
+		System.out.println("The student standard is : ");
+	}
+
+}

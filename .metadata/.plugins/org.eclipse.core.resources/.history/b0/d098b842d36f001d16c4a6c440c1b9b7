@@ -1,0 +1,10 @@
+package com.basics.ref;
+
+public class Project {
+
+	public static void main(String[] args) {
+		System.out.println("Method Reference Demo");
+
+	}
+
+}
