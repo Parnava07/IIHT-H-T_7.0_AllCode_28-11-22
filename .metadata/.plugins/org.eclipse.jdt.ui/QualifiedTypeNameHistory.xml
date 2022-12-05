@@ -9,4 +9,6 @@
     <fullyQualifiedTypeName name="com.basics.interfaces.Square"/>
     <fullyQualifiedTypeName name="java.util.function.Predicate"/>
     <fullyQualifiedTypeName name="com.basics.interfaces.Calculator"/>
+    <fullyQualifiedTypeName name="com.main.JunitClass"/>
+    <fullyQualifiedTypeName name="org.junit.jupiter.api.Test"/>
 </qualifiedTypeNameHistroy>
