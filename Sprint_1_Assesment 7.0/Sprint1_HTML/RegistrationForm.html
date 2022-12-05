@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release-pro/v4.0.0/css/line.css">
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    <script src="index.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>Registration</header>
+
+        <form>
+            <div class="form first">
+                <div class="personal details">
+                    <span class="title">Personal Details</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <label>Full Name</label>
+                            <input type="text" name="fullname" id ="fullname" placeholder="Enter Your Name" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Date of Birth</label>
+                            <input type="text" name="dob" id ="dob" placeholder="Enter birth date" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Email</label>
+                            <input type="email" name="email" id ="email" placeholder="Enter Your email" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Mobile number</label>
+                            <input type="number" name="mobileno" id ="mobileno" placeholder="Enter mobile number" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Gender</label>
+                            <input type="text" name="gender" id ="gender" placeholder="Enter your gender" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Occupation</label>
+                            <input type="text" name="occupation" id ="occupation" placeholder="Enter occupation" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="details ID">
+                    <span class="title">Identity Details</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <label>ID Type</label>
+                            <input type="text" name="idtype" id ="idtype" placeholder="Enter ID type" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>ID Number</label>
+                            <input type="number" name="idno" id ="idno" placeholder="Enter ID number" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Issue Authority</label>
+                            <input type="text" name="issueauth" id ="issueauth" placeholder="Enter issue department" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Issue Date</label>
+                            <input type="text" name="issuedt" id ="issuedt" placeholder="Enter ID issue date" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Issue State</label>
+                            <input type="text" name="issuest" id ="issuest" placeholder="Enter ID issue state" required>
+                        </div>
+                        
+                        <div class="input-field">
+                            <label>Expiry Date</label>
+                            <input type="text" name="expdt" id ="expdt" placeholder="Enter ID expiry date" required>
+                        </div>
+                    </div>
+
+                    <button class="nextbtn" name="nextbtn" id="nextbtn" onclick="display()">
+                        <span class="btntext">Next</span>
+                        <i><iconify-icon icon="ic:baseline-arrow-right-alt"></iconify-icon></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
