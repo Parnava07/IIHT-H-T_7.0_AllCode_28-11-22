@@ -6,16 +6,16 @@ import com.library.entity.Book;
 
 public interface IBookService {
 	
-	public Book createBook(Book newBook);
+	Integer createBook(Book book);
 	
-	public Book getBookById(Long id);
+	Book getBookById(Integer id);
 	
 	public List<Book> getAllBooks();
 	
-	public Book updateBook(Long id,Book updatedBook);
+	Book updateBook(Book book,Integer id);
 	
-	public void changeStatus(Long id,Boolean isBorrowed);
+	Book updateBorrowedStatus(Book book,Integer id);
 	
-	public void deleteBook(Long id);
+	public void deleteBook(Integer id);
 
 }

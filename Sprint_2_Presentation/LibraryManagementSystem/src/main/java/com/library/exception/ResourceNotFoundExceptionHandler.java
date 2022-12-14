@@ -2,7 +2,7 @@ package com.library.exception;
 
 public class ResourceNotFoundExceptionHandler extends RuntimeException {
 	
-	private static final long serialVersionUID = 12345L;
+	private static final long serialVersionUID = 123456789L;
 	private String resourceName;
 	private String fieldName;
 	private Object fieldValue;

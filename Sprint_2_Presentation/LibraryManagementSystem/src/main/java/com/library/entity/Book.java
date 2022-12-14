@@ -10,17 +10,17 @@ public class Book {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Integer id;
 	private String bookName;
 	private String authorName;
-	private float price;
+	private Float price;
 	private String genre;
 	private Boolean borrowed;
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getBookName() {
@@ -35,10 +35,10 @@ public class Book {
 	public void setAuthorName(String authorName) {
 		this.authorName = authorName;
 	}
-	public float getPrice() {
+	public Float getPrice() {
 		return price;
 	}
-	public void setPrice(float price) {
+	public void setPrice(Float price) {
 		this.price = price;
 	}
 	public String getGenre() {
@@ -56,7 +56,7 @@ public class Book {
 	public Book() {
 		super();
 	}
-	public Book(Long id, String bookName, String authorName, float price, String genre, Boolean borrowed) {
+	public Book(Integer id, String bookName, String authorName, Float price, String genre, Boolean borrowed) {
 		super();
 		this.id = id;
 		this.bookName = bookName;

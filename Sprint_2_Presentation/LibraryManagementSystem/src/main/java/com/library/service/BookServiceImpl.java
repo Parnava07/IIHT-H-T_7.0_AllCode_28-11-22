@@ -11,18 +11,20 @@ import com.library.repository.IBookRepository;
 
 @Service
 public class BookServiceImpl implements IBookService {
-	
+
 	@Autowired
 	private IBookRepository bookRepository;
 
 	@Override
-	public Book createBook(Book newBook) {
-		return bookRepository.save(newBook);
+	public Integer createBook(Book book) {
+
+		Book createdBook = bookRepository.save(book);
+		return createdBook.getId();
 	}
 
 	@Override
-	public Book getBookById(Long id) {
-		return bookRepository.findById(id).orElse(null);
+	public Book getBookById(Integer id) {
+		return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundExceptionHandler("Book", "id", id));
 	}
 
 	@Override
@@ -31,28 +33,33 @@ public class BookServiceImpl implements IBookService {
 	}
 
 	@Override
-	public Book updateBook(Long id, Book updatedBook) {
-		
-		Book existingBook =bookRepository.findById(id).orElseThrow(
-				() -> new ResourceNotFoundExceptionHandler("Book", "id", id));
-		existingBook.setBookName(updatedBook.getBookName());
-		existingBook.setAuthorName(updatedBook.getAuthorName());
-		existingBook.setGenre(updatedBook.getGenre());
-		existingBook.setPrice(updatedBook.getPrice());
-		existingBook.setBorrowed(updatedBook.getBorrowed());
-		return bookRepository.save(existingBook);
+	public Book updateBook(Book book, Integer id) {
+		Book existingBook = bookRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundExceptionHandler("Book", "id", id));
+		existingBook.setBookName(book.getBookName());
+		existingBook.setAuthorName(book.getAuthorName());
+		existingBook.setGenre(book.getGenre());
+		existingBook.setPrice(book.getPrice());
+		// existingBook.setBorrowed(book.getBorrowed());
+		bookRepository.save(existingBook);
+		return existingBook;
 	}
 
 	@Override
-	public void changeStatus(Long id, Boolean isBorrowed) {
-		bookRepository.updateBorrowedStatusById(isBorrowed,id);
-		
+	public Book updateBorrowedStatus(Book book, Integer id) {
+		Book existingBook = bookRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundExceptionHandler("Book", "id", id));
+		existingBook.setBorrowed(book.getBorrowed());
+		bookRepository.save(existingBook);
+		return existingBook;
 	}
 
 	@Override
-	public void deleteBook(Long id) {
+	public void deleteBook(Integer id) {
 		bookRepository.deleteById(id);
 		
+		
 	}
+	
 
 }
