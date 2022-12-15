@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import User from 'src/app/entity/user';
 
 @Component({
   selector: 'app-user-forms',
@@ -9,16 +10,12 @@ export class UserFormsComponent implements OnInit {
 
   title: String = 'Please Fill the below form';
 
-  firstname: String ='';
-  lastname: String ='';
-  age = 0;
-  email: String ='';
-  gender: String ='male';
+  user: User = new User();
 
   save(){
-    console.log('Hello ' + this.firstname + '' +
-    this.lastname);
-    console.log('Your Email Id is ' + this.email);   
+    console.log('Hello ' + this.user.firstname + '' +
+    this.user.lastname);
+    console.log('Your Email Id is ' + this.user.email);   
   }
 
   constructor() { }

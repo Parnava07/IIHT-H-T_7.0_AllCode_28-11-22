@@ -1,0 +1,11 @@
+{
+    "users":[
+        {
+            "firstname":"Parnava",
+            "lastname":"Kundu",
+            "age":25,
+            "email":"pk@gmail.com",
+            "id":1
+        }
+    ]
+}
