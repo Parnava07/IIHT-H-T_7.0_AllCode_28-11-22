@@ -1,11 +1,19 @@
 {
-    "users":[
-        {
-            "firstname":"Parnava",
-            "lastname":"Kundu",
-            "age":25,
-            "email":"pk@gmail.com",
-            "id":1
-        }
-    ]
+  "users": [
+    {
+      "firstname": "Parnava",
+      "lastname": "Kundu",
+      "age": 25,
+      "email": "pk@gmail.com",
+      "id": 1
+    },
+    {
+      "firstname": "Parnava",
+      "lastname": "Kundu",
+      "age": 25,
+      "email": "Parnava.Kundu@cognizant.com",
+      "gender": "male",
+      "id": 2
+    }
+  ]
 }
