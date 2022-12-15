@@ -16,7 +16,7 @@ export class UserFormsComponent implements OnInit {
   gender: String ='male';
 
   save(){
-    console.log('Hello' + this.firstname + '' +
+    console.log('Hello ' + this.firstname + '' +
     this.lastname);
     console.log('Your Email Id is ' + this.email);   
   }
