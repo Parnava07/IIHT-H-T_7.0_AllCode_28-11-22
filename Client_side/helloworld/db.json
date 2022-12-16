@@ -8,20 +8,28 @@
       "id": 1
     },
     {
-      "firstname": "Parnava",
-      "lastname": "Kundu",
-      "age": 25,
-      "email": "Parnava.Kundu@cognizant.com",
-      "gender": "male",
-      "id": 2
-    },
-    {
       "firstname": "Dhruvi ",
       "lastname": "Nanda",
       "age": 30,
       "email": "dhruvi@reddit.com",
       "gender": "male",
       "id": 4
+    },
+    {
+      "firstname": "deba",
+      "lastname": "deb",
+      "age": 10,
+      "email": "dd@gmail.com",
+      "gender": "male",
+      "id": 5
+    },
+    {
+      "firstname": "ranujoy",
+      "lastname": "debi",
+      "age": 100,
+      "email": "rd@gmail.com",
+      "gender": "male",
+      "id": 6
     }
   ]
 }
