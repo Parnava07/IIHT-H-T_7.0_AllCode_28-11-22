@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { BookServiceService } from 'src/app/services/book-service.service';
+import { BookService } from 'src/app/services/book.service';
 
 
 
@@ -11,7 +11,7 @@ import { BookServiceService } from 'src/app/services/book-service.service';
 })
 export class AddBookComponent implements OnInit {
 
-  constructor(private bookService: BookServiceService) { }
+  constructor(private bookService: BookService) { }
 
   registerForm = new FormGroup({
     book_name: new FormControl("", [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),

@@ -13,7 +13,7 @@ public class Book {
 	private Integer id;
 	private String bookName;
 	private String authorName;
-	private Float price;
+	private Double price;
 	private String genre;
 	private Boolean borrowed;
 	
@@ -35,10 +35,10 @@ public class Book {
 	public void setAuthorName(String authorName) {
 		this.authorName = authorName;
 	}
-	public Float getPrice() {
+	public Double getPrice() {
 		return price;
 	}
-	public void setPrice(Float price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	public String getGenre() {
@@ -56,7 +56,7 @@ public class Book {
 	public Book() {
 		super();
 	}
-	public Book(Integer id, String bookName, String authorName, Float price, String genre, Boolean borrowed) {
+	public Book(Integer id, String bookName, String authorName, Double price, String genre, Boolean borrowed) {
 		super();
 		this.id = id;
 		this.bookName = bookName;

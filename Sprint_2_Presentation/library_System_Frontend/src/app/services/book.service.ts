@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BookServiceService {
+export class BookService {
 
   constructor(private http: HttpClient) { }
 
@@ -21,4 +21,5 @@ export class BookServiceService {
   public deleteBook(id: any) {
     return this.http.delete(this.API + '/remove/' + id);
   }
+
 }
