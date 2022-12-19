@@ -1,0 +1,7 @@
+.img-fluid{
+    width: 1700px;
+    height: 500px;
+    position: relative;
+    padding-bottom: 50px;
+    min-height: 100vh;
+}

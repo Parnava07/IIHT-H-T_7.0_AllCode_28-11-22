@@ -1,0 +1,72 @@
+<div class="container">
+    <div class="card mt-5" style="padding: 20px;">
+      <form class="form-group" [formGroup]="registerForm" (ngSubmit)="register(registerForm)">
+        <div>
+          <label for="book_name">Book Name :</label>
+          <input type="text" id="book_name" class="form-control" formControlName="book_name" placeholder="Book Name">
+          <div class="form-text text-danger"
+            *ngIf="BookName.errors?.['required'] && (BookName.dirty || BookName.touched)">
+            Book Name is Required.
+          </div>
+          <div class="form-text text-danger" *ngIf="BookName.errors?.['pattern'] && (BookName.dirty || BookName.touched)">
+            Numbers not allowed.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="book_author">Book Author :</label>
+          <input type="text" id="book_author" class="form-control" formControlName="book_author"
+            placeholder="Book Author">
+          <div class="form-text text-danger"
+            *ngIf="BookAuthor.errors?.['required'] && (BookAuthor.dirty || BookAuthor.touched)">
+            Book Author is Required.
+          </div>
+          <div class="form-text text-danger"
+            *ngIf="BookAuthor.errors?.['pattern'] && (BookAuthor.dirty || BookAuthor.touched)">
+            Numbers not allowed.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="book_price">Book Price :</label>
+          <input type="number" id="book_price" class="form-control" formControlName="book_price" placeholder="Book Price">
+          <div class="form-text text-danger"
+            *ngIf="BookPrice.errors?.['required'] && (BookPrice.dirty || BookPrice.touched)">
+            Book Price is Required.
+          </div>
+          <div class="form-text text-danger"
+            *ngIf="BookPrice.errors?.['pattern'] && (BookPrice.dirty || BookPrice.touched)">
+            Characters not allowed.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="book_genre">Book Genre :</label>
+          <input type="text" id="book_genre" class="form-control" formControlName="book_genre" placeholder="Book Genre">
+          <div class="form-text text-danger"
+            *ngIf="BookGenre.errors?.['required'] && (BookGenre.dirty || BookGenre.touched)">
+            Book Genre is Required.
+          </div>
+          <div class="form-text text-danger"
+            *ngIf="BookGenre.errors?.['pattern'] && (BookGenre.dirty || BookGenre.touched)">
+            Numbers not allowed.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="borrowed_status">Borrowed Status :</label>
+          <br>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" value="true" id="true" formControlName="borrowed_status">
+            <label class="form-check-label" for="true">True</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" class="form-check-input" value="false" id="false" formControlName="borrowed_status">
+            <label class="form-check-label" for="false">False</label>
+          </div>
+          <div class="form-text text-danger" *ngIf="BorrowedStatus.errors?.['required']">
+            Select Status.
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="submit" [disabled]="registerForm.invalid" value="Add Book" class="btn btn-primary w-100 mt-2">
+        </div>
+      </form>
+    </div>
+  </div>
