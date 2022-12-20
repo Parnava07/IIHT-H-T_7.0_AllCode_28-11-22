@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Book from 'src/app/models/book';
 import { BookService} from 'src/app/services/book.service';
 
 
@@ -10,12 +11,13 @@ import { BookService} from 'src/app/services/book.service';
 })
 export class GetBooksComponent implements OnInit {
 
+  
   bookDetails = null;
   constructor(private bookService: BookService) { }
 
   
   getAllBooks() {
-    this.bookService.getBooks().subscribe(
+    this.bookService.getAllBooks().subscribe(
       (resp) => {
         console.log(resp);
         this.bookDetails = resp;

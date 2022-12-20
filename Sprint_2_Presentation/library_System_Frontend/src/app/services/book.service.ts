@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+const BASE_URL = 'http://localhost:5000';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -8,18 +10,18 @@ export class BookService {
 
   constructor(private http: HttpClient) { }
 
-  API = 'http://localhost:5000';
 
-  public addBook(bookData) {
-    return this.http.post(this.API + '/add/book', bookData);
+  addBook(book:any) {
+    return this.http.post(BASE_URL + "/add/book", book);
   }
 
-  public getBooks() {
-    return this.http.get(this.API + '/allbooks');
+  //get all books
+  getAllBooks() {
+    return this.http.get(BASE_URL + "/allbooks");
   }
 
-  public deleteBook(id: any) {
-    return this.http.delete(this.API + '/remove/' + id);
+  //delete book
+  deleteBook(id: any) {
+    return this.http.delete(BASE_URL + "/remove/" + id);
   }
-
 }

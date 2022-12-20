@@ -1,5 +1,15 @@
+* {
+    box-sizing: border-box;
+}
+
 .container {
-    position: relative;
-    padding-bottom: 50px;
-    min-height: 100vh;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+
+.center {
+    margin: auto;
+    width: 55%;
+    /* border: 3px solid green; */
 }

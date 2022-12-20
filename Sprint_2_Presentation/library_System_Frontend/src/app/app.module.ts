@@ -10,6 +10,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { GetBooksComponent } from './components/get-books/get-books.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -25,8 +26,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
-  
+    ReactiveFormsModule,
+    BrowserAnimationsModule  
 
   ],
   providers: [],
