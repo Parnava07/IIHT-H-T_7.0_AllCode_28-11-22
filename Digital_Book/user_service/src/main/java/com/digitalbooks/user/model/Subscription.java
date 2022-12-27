@@ -11,30 +11,29 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-
 @Entity
-@Table(name="SUBSCRIPTION")
+@Table(name = "SUBSCRIPTION")
 public class Subscription {
-	
+
 	@Id
 	private String id;
-	
+
 	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "USER_FID")
 	private Users user;
-	
+
 	@NotNull
-	@Column(name="BOOK_ID")
+	@Column(name = "BOOK_ID")
 	private int bookId;
-	
-	@Column(name="DATE_OF_SUBSCRIPTION")
+
+	@Column(name = "DATE_OF_SUBSCRIPTION")
 	private Date dateOfSubscription;
-	
-	@Column(name="CANCELLED")
+
+	@Column(name = "CANCELLED")
 	private boolean isCancelled;
-	
-	@Column(name="DATE_OF_CANCEL")
+
+	@Column(name = "DATE_OF_CANCEL")
 	private Date dateOfCancellation;
 
 	public Subscription(String id, Users user, int bookId, Date dateOfSubscription, boolean isCancelled,
@@ -100,8 +99,5 @@ public class Subscription {
 	public void setDateOfCancellation(Date dateOfCancellation) {
 		this.dateOfCancellation = dateOfCancellation;
 	}
-	
-	
-	
 
 }

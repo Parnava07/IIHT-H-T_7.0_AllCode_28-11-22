@@ -7,9 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import java.net.URI;
-import java.util.Optional;
-
-import javax.ws.rs.core.Response.Status;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.client.MockRestServiceServer;
+//import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
@@ -30,7 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.digitalbooks.user.dto.Books;
 import com.digitalbooks.user.payload.response.MessageResponse;
 import com.digitalbooks.user.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 
 import junit.framework.Assert;
 
@@ -52,37 +49,33 @@ public class UserContollerTest {
 	@MockBean
 	RestTemplate restTemplate;
 
-	 private MockRestServiceServer mockServer;
-	 private ObjectMapper mapper = new ObjectMapper();
+	 //private MockRestServiceServer mockServer;
+	 //private ObjectMapper objectMapper = new ObjectMapper();
 	    
 	@Before
 	public void setUp() {
 		this.mockMvc = webAppContextSetup(webApplicationContext).build();
 	}
 
-	@Test
-	public void testTest() {
-		//fail("Not yet implemented");
-	}
 
-	@Test
-	public void testSaveBook() {
-		//fail("Not yet implemented");
-	}
-
-	@Test
-	public void testUpdateBook() {
-		//fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAuthenticate() {
-		//fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGenerateToken() {
-}
+//	@Test
+//	public void testSaveBook() {
+//		//fail("Error in testSaveBook ");
+//	}
+//
+//	@Test
+//	public void testUpdateBook() {
+//		//fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testAuthenticate() {
+//		//fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testGenerateToken() {
+//	}
 
 	@Test
 	public void testSignUp() throws Exception {
@@ -101,7 +94,7 @@ public class UserContollerTest {
 						+ "\r\n"
 						+ "}"))
 				.andExpect(status().isOk()).andExpect(content().json("{ \"message\": \"User registered successfully!\"}"));
-						//("message": "User registered successfully!"));
+						//("message": "The User registered successfully!"));
 	}
 
 	@Test
@@ -109,14 +102,14 @@ public class UserContollerTest {
 
 	    RestTemplate restTemplate = new RestTemplate();
 	    int price = 300;
-	    final String baseUrl = "http://localhost:8082/digitalbooks/searchBook/Comic/Misti/1/"+price+"/Ami2";
+	    final String baseUrl = "http://localhost:8082/digitalbooks/searchBook/Comic/Chacha_chowdhury/1/"+price+"/Parnava";
 	    URI uri = new URI(baseUrl);
 	    
 	 
 	    Books result = restTemplate.getForObject(uri, Books.class);
 	    Assert.assertNotNull(result);
 	    
-	    final String baseUrl1 = "http://localhost:8082/digitalbooks/searchBook/Comics/Misti/1/"+price+"/Ami2";
+	    final String baseUrl1 = "http://localhost:8082/digitalbooks/searchBook/Comics/Chacha_chowdhury/1/"+price+"/Parnava";
 	    URI uri1 = new URI(baseUrl1);
 	 
 	    Books result1 = restTemplate.getForObject(uri1, Books.class);
@@ -130,7 +123,7 @@ public class UserContollerTest {
 	public void testBlockBook() throws Exception {
 		 ResponseEntity<MessageResponse> resp= ResponseEntity.ok().body(new MessageResponse("Something")); 
 		when(restTemplate.getForEntity("somevalues", com.digitalbooks.user.payload.response.MessageResponse.class)).thenReturn(resp);
-		//Assert.assertNotNull(ResponseEntity.g);
+		//Assert.assertNotNull(ResponseEntity.any);
 				
 		mockMvc.perform(post("/digitalbooks/author/2/books/2"))
 		.andExpect(status().isNotFound());	

@@ -1,6 +1,5 @@
 package com.digitalbooks.user.dto;
 
-
 public class RolesDTO {
 
 	private int id;
@@ -9,12 +8,12 @@ public class RolesDTO {
 
 	public RolesDTO() {
 		super();
-		
+
 	}
 
 	public RolesDTO(int id) {
 		this.id = id;
-		
+
 	}
 
 	public int getId() {
@@ -37,7 +36,5 @@ public class RolesDTO {
 	public String toString() {
 		return "Roles [id=" + id + ", roleName=" + roleName + "]";
 	}
-
-	
 
 }

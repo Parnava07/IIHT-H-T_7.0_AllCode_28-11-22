@@ -7,7 +7,9 @@ import com.digitalbooks.user.model.Users;
 public interface UserRepository extends JpaRepository<Users, Integer> {
 
 	Users findByUserName(String userName);
+
 	Users findByEmail(String email);
+
 	Users findByUserNameAndEmail(String userName, String email);
 
 }

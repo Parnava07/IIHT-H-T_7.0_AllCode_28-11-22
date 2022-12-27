@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -42,12 +41,7 @@ public class UserDetailsImpl implements UserDetails {
 //				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
 //				.collect(Collectors.toList());
 
-		return new UserDetailsImpl(
-				user.getId(), 
-				user.getUserName(), 
-				user.getEmail(),
-				user.getPassword(), 
-				authorities);
+		return new UserDetailsImpl(user.getId(), user.getUserName(), user.getEmail(), user.getPassword(), authorities);
 	}
 
 	@Override
@@ -97,6 +91,7 @@ public class UserDetailsImpl implements UserDetails {
 	public int hashCode() {
 		return Objects.hash(authorities, email, id, password, username);
 	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -106,9 +101,5 @@ public class UserDetailsImpl implements UserDetails {
 		UserDetailsImpl user = (UserDetailsImpl) o;
 		return Objects.equals(id, user.id);
 	}
-	
-	
-	
 
-	
 }

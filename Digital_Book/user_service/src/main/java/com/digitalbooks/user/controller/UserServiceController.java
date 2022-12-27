@@ -45,16 +45,16 @@ import com.digitalbooks.user.payload.response.MessageResponse;
 import com.digitalbooks.user.service.UserService;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 @RequestMapping(value = "/digitalbooks")
 public class UserServiceController {
 
 	@Value("${spring.datasource.url}")
-	 private  String server;
-	
+	private String server;
+
 	MultipartFile file;
 	byte[] byteslogo;
-	
+
 	@Autowired
 	private JwtUtil jwtUtil;
 	@Autowired
@@ -68,98 +68,90 @@ public class UserServiceController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	String bookUrl = "http://localhost:8082/digitalbooks/searchBook/";
-	String createBook= "http://localhost:8082/digitalbooks/author/";
-	
-	
+	String createBook = "http://localhost:8082/digitalbooks/author/";
+
 	public static final String USER_NOT_FOUND = "User is not found";
 	public static final String BOOK_NOT_FOUND = "No book is available for current selection";
-	public static final String SUBSCRIPTION_NOT_FOUND ="Subscription is not found";
-	
+	public static final String SUBSCRIPTION_NOT_FOUND = "Subscription is not found";
+
 	@GetMapping("/test")
 	public String test() {
-		return "It is User Service "+server ;
-			}
+		return "It is User Service Controller" + server;
+	}
 
-	
-	@PostMapping(value="/uploadlogo")
+	@PostMapping(value = "/uploadlogo")
 	public void uploadLogo(@RequestParam("file") MultipartFile file) throws IOException {
 		try {
 			if (file != null) {
 				this.byteslogo = file.getBytes();
-		         
+
 			}
 		} catch (Exception e) {
 
-			throw new IOException(e.getMessage()); ///sonar
-		} 
-		
-		
+			throw new IOException(e.getMessage()); /// sonar
+		}
+
 	}
-	@PostMapping(value="/author/{author-id}/books", consumes = { "application/json" })
-    public ResponseEntity<?> saveBook(
-    		@Valid @RequestBody Books book, 
-    		@PathVariable("author-id") int authorId) throws IOException {
-		
+
+	@PostMapping(value = "/author/{author-id}/books", consumes = { "application/json" })
+	public ResponseEntity<?> saveBook(@Valid @RequestBody Books book, @PathVariable("author-id") int authorId)
+			throws IOException {
+
 		boolean isUserAuthor = userService.checkAuthorExists(authorId);
-		if(isUserAuthor) {
+		if (isUserAuthor) {
 			byte[] bytes = this.byteslogo;
 
 			BooksWithByteFile booksWithLogo = new BooksWithByteFile();
 			booksWithLogo.setFile(bytes);
 			booksWithLogo.setBooks(book);
 
-			Integer savedBookId = restTemplate.postForObject(createBook+authorId, booksWithLogo, Integer.class);
+			Integer savedBookId = restTemplate.postForObject(createBook + authorId, booksWithLogo, Integer.class);
 
-			if(savedBookId!=null) {
-				return ResponseEntity.status(HttpStatus.CREATED).body(savedBookId)	;
+			if (savedBookId != null) {
+				return ResponseEntity.status(HttpStatus.CREATED).body(savedBookId);
+			} else {
+				return ResponseEntity.badRequest()
+						.body(new MessageResponse("Author has already a book with same Name"));
 			}
-			else {
-		       return ResponseEntity.badRequest().body(new MessageResponse("Author has already a book with same Name"));
-			}
-			
+
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body(new MessageResponse("User is either not present or user does not have author role"));
 		}
-		else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("User is either not present or user does not have author role"));
-		}
-			
+
 	}
-		
+
 	@PostMapping("/author/{author-id}/books/{book-id}")
-	public ResponseEntity<?> updateBook(
-			@Valid @RequestBody Books book,
-    		@PathVariable("author-id") int authorId,
-    		@PathVariable("book-id") int bookId) throws Exception {
+	public ResponseEntity<?> updateBook(@Valid @RequestBody Books book, @PathVariable("author-id") int authorId,
+			@PathVariable("book-id") int bookId) throws Exception {
 		boolean isUserAuthor = userService.checkAuthorExists(authorId);
-		if(isUserAuthor) {
+		if (isUserAuthor) {
 			byte[] bytes = this.byteslogo;
 			BooksWithByteFile booksWithLogo = new BooksWithByteFile();
 			booksWithLogo.setFile(bytes);
 			booksWithLogo.setBooks(book);
-			Books updatedBook = restTemplate.postForObject(createBook+authorId+"/"+bookId, booksWithLogo, Books.class);
-			
-			if(updatedBook!=null) {
-				return ResponseEntity.ok(updatedBook);		
+			Books updatedBook = restTemplate.postForObject(createBook + authorId + "/" + bookId, booksWithLogo,
+					Books.class);
+
+			if (updatedBook != null) {
+				return ResponseEntity.ok(updatedBook);
+			} else {
+				return ResponseEntity.badRequest().body(new MessageResponse("Author does not have the book"));
 			}
-			else {
-		       return ResponseEntity.badRequest().body(new MessageResponse("Author does not have the book"));
-			}
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body(new MessageResponse("The User is either not present or the user does not have Author role"));
 		}
-		else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("User is either not present or user does not have author role"));
-		}
-		
-		
-		
+
 	}
-		
 
 	@PostMapping("/sign-in")
 	public ResponseEntity<?> generateToken(@Valid @RequestBody AuthRequest authRequest,
 			HttpServletResponse httpServletResponse, HttpSession session) throws Exception {
 		try {
-			
+
 			Authentication authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
 
@@ -173,7 +165,7 @@ public class UserServiceController {
 					userDetails.getEmail(), roles));
 		} catch (Exception ex) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Invalid username or password!"));
-			
+
 		}
 
 	}
@@ -188,11 +180,9 @@ public class UserServiceController {
 		user.setPassword(encoder.encode(user.getPassword()));
 		user.setCreatedDate(new Date());
 		userService.saveUser(user);
-		return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("User registered successfully!"));
+		return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("The User registered successfully!"));
 
 	}
-
-	
 
 	@GetMapping("/searchBook")
 	public ResponseEntity<?> searchBook(@RequestParam("category") String category, @RequestParam("title") String title,
@@ -214,30 +204,34 @@ public class UserServiceController {
 			throw new Exception(ex.getMessage());
 		}
 		if (responseBook == null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("No book is available for current selection"));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body(new MessageResponse("No book is available for current selection"));
 		} else {
 			return ResponseEntity.ok(booksWithLogo);
 		}
 
 	}
-	
+
 	@PutMapping("author/{author-id}/books/{book-id}")
-	public ResponseEntity<?> blockBook(@PathVariable("author-id") int userId, @PathVariable("book-id") int bookId, @RequestParam("block") String block) {
-		ResponseEntity<MessageResponse> blocked = restTemplate.getForEntity(bookUrl+"cancel/"+userId+"/"+bookId+"/"+block , MessageResponse.class);		
-	  return blocked;
+	public ResponseEntity<?> blockBook(@PathVariable("author-id") int userId, @PathVariable("book-id") int bookId,
+			@RequestParam("block") String block) {
+		ResponseEntity<MessageResponse> blocked = restTemplate
+				.getForEntity(bookUrl + "cancel/" + userId + "/" + bookId + "/" + block, MessageResponse.class);
+		return blocked;
 	}
-	
-	/**fetch book for update
-	 * @throws Exception **/
+
+	/**
+	 * fetch book for update
+	 * 
+	 * @throws Exception
+	 **/
+
 	@GetMapping("book/{book-id}")
 	public ResponseEntity<?> fetchBookForUpdate(@PathVariable("book-id") int bookId) throws Exception {
 		Books responseBook = new Books();
 		BooksWithLogo booksWithLogo = null;
-		byte[] logo = restTemplate.getForObject(
-				bookUrl+"/logo/"+bookId,
-				byte[].class);
-		responseBook = restTemplate.getForObject(
-				bookUrl+bookId, Books.class);
+		byte[] logo = restTemplate.getForObject(bookUrl + "/logo/" + bookId, byte[].class);
+		responseBook = restTemplate.getForObject(bookUrl + bookId, Books.class);
 		try {
 			Blob blob = userService.fetchBlob(logo);
 			booksWithLogo = new BooksWithLogo(blob, responseBook);
@@ -249,13 +243,15 @@ public class UserServiceController {
 		} else {
 			return ResponseEntity.ok(booksWithLogo);
 		}
-		
+
 	}
-	
-	
-	
-	/**Get all createdbook of an user for front end
-	 * @throws Exception **/
+
+	/**
+	 * Get all created book of an user for front end
+	 * 
+	 * @throws Exception
+	 **/
+
 	@GetMapping("createdbook/{user-id}")
 	public ResponseEntity<?> getSubscriptionId(@PathVariable("user-id") int user) throws Exception {
 
@@ -267,35 +263,32 @@ public class UserServiceController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USER_NOT_FOUND);
 		} else {
 			List<BooksWithLogo> listofBooks = new ArrayList<>();
-					byte[] logo[] = restTemplate.getForObject(bookUrl + "createdbook/logo/" + user, byte[][].class);
-					responseBook = restTemplate.getForObject(bookUrl + "createdbook/" + user, Books[].class);
+			byte[] logo[] = restTemplate.getForObject(bookUrl + "createdbook/logo/" + user, byte[][].class);
+			responseBook = restTemplate.getForObject(bookUrl + "createdbook/" + user, Books[].class);
 
-					try {
-						if(responseBook!=null) {
-							for(int i=0 ;i <responseBook.length;i++) {
-								if(logo!=null) {
-									Blob blob = userService.fetchBlob(logo[i]);
-									booksWithLogo = new BooksWithLogo(blob, responseBook[i]);
-									listofBooks.add(booksWithLogo);
-								}
-								
-							}
+			try {
+				if (responseBook != null) {
+					for (int i = 0; i < responseBook.length; i++) {
+						if (logo != null) {
+							Blob blob = userService.fetchBlob(logo[i]);
+							booksWithLogo = new BooksWithLogo(blob, responseBook[i]);
+							listofBooks.add(booksWithLogo);
 						}
-						
-						
-					} catch (Exception ex) {
-						throw new Exception(ex.getMessage());
-					}
-					if (responseBook == null) {
-						return ResponseEntity.status(HttpStatus.NOT_FOUND).body(BOOK_NOT_FOUND);
-					}
-			//	}
 
-				return ResponseEntity.ok(listofBooks);
+					}
+				}
+
+			} catch (Exception ex) {
+				throw new Exception(ex.getMessage());
+			}
+			if (responseBook == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(BOOK_NOT_FOUND);
+			}
+
+			return ResponseEntity.ok(listofBooks);
 
 		}
 
-	
 	}
 
 }

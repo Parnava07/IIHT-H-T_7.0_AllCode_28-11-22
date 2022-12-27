@@ -1,11 +1,8 @@
 package com.digitalbooks.user.jwt;
 
-//import javax.validation.constraints.NotBlank;
-
 public class LoginRequest {
 
 	private String username;
-
 
 	private String password;
 

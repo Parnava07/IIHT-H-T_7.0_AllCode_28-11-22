@@ -2,13 +2,10 @@ package com.digitalbooks.user.dto;
 
 import java.sql.Blob;
 
-
-
 public class BooksWithLogo {
 
+	public Blob logo;
 
-    public Blob logo; 
-	
 	private Books books;
 
 	public BooksWithLogo(Blob logo, Books books) {

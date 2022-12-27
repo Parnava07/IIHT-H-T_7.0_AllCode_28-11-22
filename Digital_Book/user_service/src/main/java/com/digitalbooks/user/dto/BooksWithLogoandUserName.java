@@ -2,15 +2,12 @@ package com.digitalbooks.user.dto;
 
 import java.sql.Blob;
 
-
-
 public class BooksWithLogoandUserName {
 
+	public Blob logo;
 
-    public Blob logo; 
-	
 	private Books books;
-	
+
 	private String userName;
 
 	public BooksWithLogoandUserName(Blob logo, Books books, String userName) {
@@ -53,6 +50,5 @@ public class BooksWithLogoandUserName {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
 
 }

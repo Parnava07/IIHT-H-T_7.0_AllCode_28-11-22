@@ -27,8 +27,9 @@ import com.digitalbooks.user.payload.response.MessageResponse;
 import com.digitalbooks.user.pyload.request.SubscriptionPayLoad;
 import com.digitalbooks.user.service.SubscriptionService;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
+
 @RestController
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 @RequestMapping(value = "/digitalbooks")
 public class SubscriptionController {
 
@@ -42,7 +43,7 @@ public class SubscriptionController {
 
 	public static final String USER_NOT_FOUND = "User is not found";
 	public static final String BOOK_NOT_FOUND = "No book is available for current selection";
-	public static final String SUBSCRIPTION_NOT_FOUND ="Subscription is not found";
+	public static final String SUBSCRIPTION_NOT_FOUND = "Subscription is not found";
 
 	@PostMapping("/{book-id}/subscribe")
 	public ResponseEntity<?> subscribe(@PathVariable("book-id") int bookId,
@@ -55,7 +56,7 @@ public class SubscriptionController {
 			responseBook = restTemplate.getForObject(bookUrl + bookId, Books.class);
 		} catch (Exception ex) {
 			return ResponseEntity.internalServerError().body(new com.digitalbooks.user.payload.response.MessageResponse(
-					"There is some issue in fetching book with mentioned id"));
+					"There is some issue in fetching book with this mentioned id"));
 		}
 
 		if (responseBook != null) {
@@ -87,31 +88,24 @@ public class SubscriptionController {
 
 	}
 
-	
-	/**Get Subscription ID for front end**/
+	/** Get Subscription ID for front end **/
 	@GetMapping("readers/{user-id}/{book-id}")
-	public ResponseEntity<?> getSubscriptionId(@PathVariable("user-id") int userId, 
-		@PathVariable("book-id") int bookId) {
-		 Optional<List<Subscription>> id =subscriptionService.fetchSubscriptionIdByBookIdAndUserId(userId, bookId);
-		 if(id.isPresent()) {
-			 return ResponseEntity.ok(id.get().get(0)); 
-		 }
-		 return null;
-		
+	public ResponseEntity<?> getSubscriptionId(@PathVariable("user-id") int userId,
+			@PathVariable("book-id") int bookId) {
+		Optional<List<Subscription>> id = subscriptionService.fetchSubscriptionIdByBookIdAndUserId(userId, bookId);
+		if (id.isPresent()) {
+			return ResponseEntity.ok(id.get().get(0));
+		}
+		return null;
+
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	/** Reader can fetch all subscribed books **/
 
 	@GetMapping("readers/{emailId}/books")
 	public ResponseEntity<?> getSubscribedBooks(@PathVariable("emailId") String email) throws Exception {
 		Books responseBook = null;
-		BooksWithLogo booksWithLogo = null;
+		// BooksWithLogo booksWithLogo = null;
 		BooksWithLogoandUserName bookWIthLogoAndUse = null;
 		int userId = subscriptionService.getUserIdByEmail(email);
 		if (userId == 0) {
@@ -125,11 +119,12 @@ public class SubscriptionController {
 
 					byte[] logo = restTemplate.getForObject(bookUrl + "subscribed/logo/" + bookId, byte[].class);
 					responseBook = restTemplate.getForObject(bookUrl + "subscribed/" + bookId, Books.class);
-					String userNameOfBook = responseBook!=null?
-							subscriptionService.getUserNameByUserIdFromBookObject(responseBook.getAuthorId()) : "";
-							
+					String userNameOfBook = responseBook != null
+							? subscriptionService.getUserNameByUserIdFromBookObject(responseBook.getAuthorId())
+							: "";
+
 					try {
-						
+
 						Blob blob = subscriptionService.fetchBlob(logo);
 						bookWIthLogoAndUse = new BooksWithLogoandUserName(blob, responseBook, userNameOfBook);
 						listofBooks.add(bookWIthLogoAndUse);

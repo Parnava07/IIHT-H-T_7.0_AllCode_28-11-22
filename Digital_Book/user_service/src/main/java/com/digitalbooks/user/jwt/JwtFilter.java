@@ -32,28 +32,27 @@ public class JwtFilter extends OncePerRequestFilter {
 		String token = null;
 		String userName = null;
 		try {
-		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-			// token = authorizationHeader.substring(7);
-			token = authorizationHeader.split(" ")[1].trim();
-			userName = jwtUtil.extractUsername(token);
-		}
-
-		if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-			UserDetails userDetails = service.loadUserByUsername(userName);
-
-			if (jwtUtil.validateToken(token, userDetails)) {
-
-				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-						userDetails, null, userDetails.getAuthorities());
-				usernamePasswordAuthenticationToken
-						.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+			if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+				token = authorizationHeader.split(" ")[1].trim();
+				userName = jwtUtil.extractUsername(token);
 			}
+
+			if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+				UserDetails userDetails = service.loadUserByUsername(userName);
+
+				if (jwtUtil.validateToken(token, userDetails)) {
+
+					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+							userDetails, null, userDetails.getAuthorities());
+					usernamePasswordAuthenticationToken
+							.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+					SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Cannot set user authentication: {}", e);
 		}
-	} catch (Exception e) {
-		logger.error("Cannot set user authentication: {}", e);
-	}
 
 		filterChain.doFilter(httpServletRequest, httpServletResponse);
 	}

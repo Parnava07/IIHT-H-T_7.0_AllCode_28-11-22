@@ -1,6 +1,5 @@
 package com.digitalbooks.user.jwt;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,41 +17,40 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig  {
-	
-	 AuthenticationManager authenticationManager;
-	 
-	 @Autowired
-	 JwtFilter jwtFilter;
-    
+public class SecurityConfig {
+
+	AuthenticationManager authenticationManager;
+
 	@Autowired
-    private  AuthEntryPointJwt unauthorizedHandler;
+	JwtFilter jwtFilter;
 
-  //  private final AuthTokenFilter authenticationJwtTokenFilter;
+	@Autowired
+	private AuthEntryPointJwt unauthorizedHandler;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    	//return NoOpPasswordEncoder.getInstance();
-    }
+	// private final AuthTokenFilter authenticationJwtTokenFilter;
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+		// return NoOpPasswordEncoder.getInstance();
+	}
 
 //    @Bean
 //    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
 //        return authenticationConfiguration.getAuthenticationManager();
 //    }
 
-    @Autowired
-    UserDetailsService userDetailsService;
+	@Autowired
+	UserDetailsService userDetailsService;
 
-    @Bean
-    public AuthenticationManager authenticateManager(HttpSecurity http) throws Exception {
+	@Bean
+	public AuthenticationManager authenticateManager(HttpSecurity http) throws Exception {
 
-        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userDetailsService);
-        authenticationManager = authenticationManagerBuilder.build();
+		AuthenticationManagerBuilder authenticationManagerBuilder = http
+				.getSharedObject(AuthenticationManagerBuilder.class);
+		authenticationManagerBuilder.userDetailsService(userDetailsService);
+		authenticationManager = authenticationManagerBuilder.build();
 
-        
-        
 //        http.csrf().disable()
 //       // .cors().disable()
 //        .authorizeHttpRequests().antMatchers("/authenticate").permitAll()
@@ -61,18 +59,17 @@ public class SecurityConfig  {
 //    //        .authenticationManager(authenticationManager)
 //            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //      http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-       // return http.build();
-        return authenticationManager;
-    }
-    
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/swagger-ui/**", "/v3/api-docs/**");
-    }
-  
+		// return http.build();
+		return authenticationManager;
+	}
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring().antMatchers("/swagger-ui/**", "/v3/api-docs/**");
+	}
+
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 //        http.cors().and().csrf().disable()
 //                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
@@ -85,28 +82,24 @@ public class SecurityConfig  {
 //
 //        http.addFilterBefore(authenticationJwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 //        
-        
- 
-    	http.cors();
-    	
-        http.csrf().disable()
-        // .cors().disable()
-        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-         .authorizeHttpRequests().antMatchers("/digitalbooks/sign-in").permitAll()
-         .antMatchers("/digitalbooks/sign-up").permitAll()
-         .antMatchers("/digitalbooks/searchBook").permitAll()
-         .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
-         .antMatchers("/digitalbooks/test").permitAll()
-       
-         
-             .anyRequest().authenticated()
-             .and()
-     //        .authenticationManager(authenticationManager)
-             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-       http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-   }
+		http.cors();
+
+		http.csrf().disable()
+				// .cors().disable()
+				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().authorizeHttpRequests()
+				.antMatchers("/digitalbooks/sign-in").permitAll().antMatchers("/digitalbooks/sign-up").permitAll()
+				.antMatchers("/digitalbooks/searchBook").permitAll()
+				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
+				.antMatchers("/digitalbooks/test").permitAll()
+
+				.anyRequest().authenticated().and()
+				// .authenticationManager(authenticationManager)
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+		return http.build();
+	}
 //
 //    @Bean
 //    public WebMvcConfigurer corsConfigurer() {
@@ -119,6 +112,4 @@ public class SecurityConfig  {
 //        };
 //    
 
-	
-	
 }

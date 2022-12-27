@@ -76,7 +76,7 @@ public class BookServiceControllerTest {
 	public void testGetBook() throws Exception {
 		Books books = new Books();
 		//when(userServiceMock.saveUser(any(Users.class))).thenReturn();
-		mockMvc.perform(get("/digitalbooks/searchBook/Comic/Misti/1/300/Ami2"))
+		mockMvc.perform(get("/digitalbooks/searchBook/Comic/chacha_chowdhury/1/300/Parnava"))
 				.andExpect(status().isOk());	
 	}
 	@Test
@@ -89,7 +89,7 @@ public class BookServiceControllerTest {
 		book.setLogo(null);
 		book.setPrice(1000);
 		book.setPublishedDate(new Date());
-		book.setPublisher("Amra");
+		book.setPublisher("We");
 		when(bookServiceMock.getSubscribedBook(anyInt())).thenReturn(book);
 		mockMvc.perform(get("/digitalbooks/getBook/subscribed/1"))
 		.andExpect(jsonPath("$.title").value("title"));

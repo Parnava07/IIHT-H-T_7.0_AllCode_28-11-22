@@ -1,6 +1,5 @@
 package com.digitalbooks.book.service;
 
-
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Date;
@@ -22,12 +21,12 @@ import com.digitalbooks.book.repository.BookRepository;
 @Transactional
 public class BookService {
 
-	@Autowired 
+	@Autowired
 	private BookRepository bookRepository;
-	
+
 	public int saveBook(Blob blob, BooksWithByteFile book, int authorId) {
-		Optional<Books> existingBook = bookRepository.findByTitleAndAuthorId(book.getBooks().getTitle(),authorId);
-		if(existingBook.isEmpty()) { // author with same book title check
+		Optional<Books> existingBook = bookRepository.findByTitleAndAuthorId(book.getBooks().getTitle(), authorId);
+		if (existingBook.isEmpty()) { // author with same book title check
 			Books bookToBeSaved = new Books();
 			bookToBeSaved.setLogo(blob);
 			bookToBeSaved.setActive(book.getBooks().isActive());
@@ -38,22 +37,20 @@ public class BookService {
 			bookToBeSaved.setPublishedDate(new Date());
 			bookToBeSaved.setPublisher(book.getBooks().getPublisher());
 			bookToBeSaved.setTitle(book.getBooks().getTitle());
-			Books savedBooks= bookRepository.save(bookToBeSaved);
-			System.out.println("saved book Id: "+savedBooks.getId() );
+			Books savedBooks = bookRepository.save(bookToBeSaved);
+			System.out.println("saved book Id: " + savedBooks.getId());
 			return savedBooks.getId();
-					
-		}
-		else {
+
+		} else {
 			return 0;
 		}
 
 	}
 
 	public Books updateBook(Blob blob, BooksWithByteFile book, int authorId, int bookId) {
-		
-		Optional<Books> existingBookForUser = bookRepository.searchByIdAndAuthorId(bookId,authorId);
-		if(!existingBookForUser.isEmpty()) {
 
+		Optional<Books> existingBookForUser = bookRepository.searchByIdAndAuthorId(bookId, authorId);
+		if (!existingBookForUser.isEmpty()) {
 
 			existingBookForUser.get().setLogo(blob);
 			existingBookForUser.get().setTitle(book.getBooks().getTitle());
@@ -63,73 +60,68 @@ public class BookService {
 			existingBookForUser.get().setContent(book.getBooks().getContent());
 			existingBookForUser.get().setCategory(book.getBooks().getCategory());
 			return bookRepository.save(existingBookForUser.get());
-		}
-		else {
+		} else {
 			return null;
-         }
-		
+		}
+
 	}
 
 	public BooksResponse getBookById(int bookId) {
-	Optional<Books> book =	bookRepository.findById(bookId);
-	if(!book.isEmpty()) {
-		BooksResponse bookResponse =  new BooksResponse();
-		bookResponse.setAuthorId(book.get().getAuthorId());
-		bookResponse.setCategory(book.get().getCategory());
-		bookResponse.setPrice(book.get().getPrice());
-		bookResponse.setPublishedDate(book.get().getPublishedDate());
-		bookResponse.setPublisher(book.get().getPublisher());
-		bookResponse.setTitle(book.get().getTitle());
-		bookResponse.setActive(book.get().isActive());
-		return bookResponse;
-	}
-	else {
-		return null;
-	}
+		Optional<Books> book = bookRepository.findById(bookId);
+		if (!book.isEmpty()) {
+			BooksResponse bookResponse = new BooksResponse();
+			bookResponse.setAuthorId(book.get().getAuthorId());
+			bookResponse.setCategory(book.get().getCategory());
+			bookResponse.setPrice(book.get().getPrice());
+			bookResponse.setPublishedDate(book.get().getPublishedDate());
+			bookResponse.setPublisher(book.get().getPublisher());
+			bookResponse.setTitle(book.get().getTitle());
+			bookResponse.setActive(book.get().isActive());
+			return bookResponse;
+		} else {
+			return null;
+		}
 
-		
 	}
 
 	public byte[] getBookForLogo(String category, String title, int authorId, int price, String publisher) {
-		
+
 		byte[] byteArray = null;
 		try {
-			Optional<List<Books>> book =	bookRepository.findByCategoryOrTitleOrAuthorOrPriceOrPublisher(category,title,authorId,price,publisher);
-			if( book.isEmpty()) 
-			{ return null ;
-			}
-			else {
-				if(((Books) book.get()).getLogo()!=null) {
-				byteArray =((Books) book.get()).getLogo().getBytes(1,(int)((Books) book.get()).getLogo().length());
+			Optional<Books> book = bookRepository.searchBook(category, title, authorId, price, publisher);
+			if (book.isEmpty()) {
+				return null;
+			} else {
+				if (book.get().getLogo() != null) {
+					byteArray = book.get().getLogo().getBytes(1, (int) book.get().getLogo().length());
 				}
 			}
-				
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return byteArray;
 	}
 
-	public List<Books> getBookForSearch(String category, String title, int authorId, int price, String publisher) {
-		Optional<List<Books>> book =	bookRepository.findByCategoryOrTitleOrAuthorOrPriceOrPublisher(category,title,authorId,price,publisher);
-		return book.isEmpty()?null:book.get();
+	public Books getBookForSearch(String category, String title, int authorId, int price, String publisher) {
+		Optional<Books> book = bookRepository.searchBook(category, title, authorId, price, publisher);
+		return book.isEmpty() ? null : book.get();
 	}
 
 	public byte[] getSubscribedBookForLogo(int bookId) {
 
 		byte[] byteArray = null;
 		try {
-			Optional<Books> book =	bookRepository.findById(bookId);
-			if(book.isEmpty()) {
+			Optional<Books> book = bookRepository.findById(bookId);
+			if (book.isEmpty()) {
 				return null;
+			} else {
+				if (book.get().getLogo() != null) {
+					byteArray = book.get().getLogo().getBytes(1, (int) book.get().getLogo().length());
+
+				}
 			}
-			else {
-				if(book.get().getLogo()!=null) {
-					byteArray = book.get().getLogo().getBytes(1,(int)book.get().getLogo().length());
-					
-				}
-				}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -137,129 +129,123 @@ public class BookService {
 	}
 
 	public Books getSubscribedBook(int bookId) {
-		Optional<Books> book =	bookRepository.findById(bookId);
-		return book.isEmpty()?null:book.get();
+		Optional<Books> book = bookRepository.findById(bookId);
+		return book.isEmpty() ? null : book.get();
 	}
 
 	public BookContentResponse getSubscribedBookContent(int bookId) {
-		Optional<Books> book =	bookRepository.findById(bookId);
+		Optional<Books> book = bookRepository.findById(bookId);
 		BookContentResponse bookContent = new BookContentResponse();
-		if(!book.isEmpty()) {
+		if (!book.isEmpty()) {
 			bookContent.setContent(book.get().getContent());
 			bookContent.setTitle(book.get().getTitle());
 			bookContent.setActive(book.get().isActive());
 			return bookContent;
 		}
-		
-		else{
-			return null;
-		}
-	}
 
-	public Books checkBookAvailability( int bookId) {
-		Optional<Books> book =	bookRepository.findById(bookId);
-		if(!book.isEmpty()) {
-			return book.get();
-		}
 		else {
 			return null;
 		}
-		
+	}
+
+	public Books checkBookAvailability(int bookId) {
+		Optional<Books> book = bookRepository.findById(bookId);
+		if (!book.isEmpty()) {
+			return book.get();
+		} else {
+			return null;
+		}
+
 	}
 
 	public Books checkBookUserAvailability(int userId, int bookId) {
-		Optional<Books> book =	bookRepository.findById(bookId);
-		if(!book.isEmpty() && book.get().getAuthorId()==userId) {		
-				return book.get();	
+		Optional<Books> book = bookRepository.findById(bookId);
+		if (!book.isEmpty() && book.get().getAuthorId() == userId) {
+			return book.get();
 		}
-		
-			return null;
-				
+
+		return null;
+
 	}
 
 	public Books blockBook(int bookId, String block) {
-		Optional<Books> book =	bookRepository.findById(bookId);
-		Books savedBook  = null; 
-		if(block.equalsIgnoreCase("yes") && !book.isEmpty()) {
-			
-				book.get().setActive(false);
-				 savedBook = bookRepository.save(book.get());
-			
-			
+		Optional<Books> book = bookRepository.findById(bookId);
+		Books savedBook = null;
+		if (block.equalsIgnoreCase("yes") && !book.isEmpty()) {
+
+			book.get().setActive(false);
+			savedBook = bookRepository.save(book.get());
+
 		}
-		if(block.equalsIgnoreCase("no") && !book.isEmpty()) {
-			
-				book.get().setActive(true);
-				 savedBook = bookRepository.save(book.get());
-			
+		if (block.equalsIgnoreCase("no") && !book.isEmpty()) {
+
+			book.get().setActive(true);
+			savedBook = bookRepository.save(book.get());
+
 		}
-		
+
 		return savedBook;
-		
+
 	}
 
 	public byte[][] getCreatedBookForLogo(int userId) {
 		byte[] byteArray[] = new byte[1000][];
 		try {
-			Optional<List<Books>> book =	bookRepository.findByAuthorId(userId);
-			
-			if(book.isEmpty()) {
-				byteArray=null;
-			}
-			else {
-				for(int i=0; i<book.get().size();i++) {
-					if(book.get().get(i).getLogo()!=null) {
-						byteArray[i]=book.get().get(i).getLogo().getBytes(1, (int)book.get().get(i).getLogo().length());
+			Optional<List<Books>> book = bookRepository.findByAuthorId(userId);
+
+			if (book.isEmpty()) {
+				byteArray = null;
+			} else {
+				for (int i = 0; i < book.get().size(); i++) {
+					if (book.get().get(i).getLogo() != null) {
+						byteArray[i] = book.get().get(i).getLogo().getBytes(1,
+								(int) book.get().get(i).getLogo().length());
 					}
-					
+
 				}
 			}
-} catch (SQLException e) {
-			
+		} catch (SQLException e) {
+
 		}
 		return byteArray;
 	}
 
 	public List<Books> getCreatedBook(int userId) {
-		Optional<List<Books>> book =	bookRepository.findByAuthorId(userId);
-		return book.isEmpty()?null:book.get();
+		Optional<List<Books>> book = bookRepository.findByAuthorId(userId);
+		return book.isEmpty() ? null : book.get();
 	}
 
 	public int getCount(int userId) {
 		return bookRepository.fetchCountOfBooks(userId);
-		
+
 	}
-	
+
 	public byte[] getBookLogoForUpdation(int bookId) {
 
 		byte[] byteArray = null;
 		try {
-			Optional<Books> book =	bookRepository.findById(bookId);
-			if(book.isEmpty()) {
+			Optional<Books> book = bookRepository.findById(bookId);
+			if (book.isEmpty()) {
 				return null;
-			}
-			else {
-				if(book.get().getLogo()!=null) {
-					book.get().getLogo().getBytes(1,(int)book.get().getLogo().length());
+			} else {
+				if (book.get().getLogo() != null) {
+					book.get().getLogo().getBytes(1, (int) book.get().getLogo().length());
 				}
 			}
 		} catch (SQLException e) {
-			
+
 		}
 		return byteArray;
 	}
 
 	public Books getBookForUpdation(int bookId) {
 		Optional<Books> book1 = bookRepository.findById(bookId);
-		if(book1.isPresent()) {
+		if (book1.isPresent()) {
 			return book1.get();
-		}
-		else {
+		} else {
 			return null;
 		}
-		
+
 	}
-
-
 
 }

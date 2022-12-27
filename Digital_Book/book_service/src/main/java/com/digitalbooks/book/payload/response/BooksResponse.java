@@ -2,8 +2,6 @@ package com.digitalbooks.book.payload.response;
 
 import java.util.Date;
 
-
-
 public class BooksResponse {
 	private String title;
 
@@ -16,7 +14,7 @@ public class BooksResponse {
 	private String publisher;
 
 	private Date publishedDate;
-	
+
 	private boolean isActive;
 
 	public String getTitle() {
@@ -66,7 +64,6 @@ public class BooksResponse {
 	public void setPublishedDate(Date publishedDate) {
 		this.publishedDate = publishedDate;
 	}
-	
 
 	public boolean isActive() {
 		return isActive;
@@ -90,12 +87,6 @@ public class BooksResponse {
 
 	public BooksResponse() {
 		super();
-			} 
-	
-	
-
-
-
-
+	}
 
 }

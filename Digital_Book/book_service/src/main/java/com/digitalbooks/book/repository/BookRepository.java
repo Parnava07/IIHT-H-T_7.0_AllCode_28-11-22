@@ -6,19 +6,14 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import com.digitalbooks.book.model.Books;
 
-@Repository
 public interface BookRepository extends JpaRepository<Books, Integer> {
 
 
-//	@Query(value="Select B.ID, B.TITLE, B.LOGO, B.AUTHOR, B.CATEGORY, B.PRICE, B.PUBLISHER, B.PUBLISHED_DATE, B.active, B.content from books B where B.category=:category and B.title=:title and B.author=:authorId and B.price=:price and B.publisher=:publisher and B.active=1", nativeQuery = true)
-//	public Optional<Books> searchBook(String category, String title, int authorId, int price, String publisher);
-	
-	public Optional<List<Books>> findByCategoryOrTitleOrAuthorIdOrPriceOrPublisher(String category, String title, int authorId, int price, String publisher);
-	
+	@Query(value="Select B.ID, B.TITLE, B.LOGO, B.AUTHOR, B.CATEGORY, B.PRICE, B.PUBLISHER, B.PUBLISHED_DATE, B.active, B.content from books B where B.category=:category and B.title=:title and B.author=:authorId and B.price=:price and B.publisher=:publisher and B.active=1", nativeQuery = true)
+	public Optional<Books> searchBook(String category, String title, int authorId, int price, String publisher);
 
 	public Optional<Books> findByIdAndAuthorId(int bookId, int authorId);
 
